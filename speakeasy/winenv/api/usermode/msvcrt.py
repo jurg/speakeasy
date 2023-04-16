@@ -77,6 +77,57 @@ class Msvcrt(api.ApiHandler):
 
         return cmdln
 
+    @apihook('_setjmp', argc=3, conv=e_arch.CALL_CONV_CDECL)
+    def _setjmp(self, amu, argv, ctx={}):
+        """
+        int _setjmp3(
+           OUT jmp_buf env,
+           int count,
+           (optional parameters)
+        );
+        """
+        return 0
+
+    @apihook('_setmode', argc=2, conv=e_arch.CALL_CONV_CDECL)
+    def _setmode(self, emu, argv, ctx={}):
+        """
+        int _setmode (
+           int fd,
+           int mode
+        );
+        """
+        return 0
+
+    @apihook('_fileno', argc=1, conv=e_arch.CALL_CONV_CDECL)
+    def _fileno(self, emu, argv, ctx={}):
+        """
+        int _fileno(
+            FILE *stream
+        );
+        """
+        return 0
+
+    @apihook('__iob_func', argc=0, conv=e_arch.CALL_CONV_CDECL)
+    def __iob_func(self, emu, argv, ctx={}):
+        """
+        MSVCRT_FILE * CDECL MSVCRT___iob_func(void)
+             {
+              return &MSVCRT__iob[0];
+             }
+        """
+        return 0
+
+    @apihook('signal', argc=2, conv=e_arch.CALL_CONV_CDECL)
+    def signal(self, emu, argv, ctx={}):
+        """
+        void (__cdecl *signal(
+            int sig,
+            void (__cdecl *func ) (int [, int ] )))
+            (int);
+
+        """
+        return 0
+
     @apihook('_onexit', argc=1, conv=e_arch.CALL_CONV_CDECL)
     def _onexit(self, emu, argv, ctx={}):
         """

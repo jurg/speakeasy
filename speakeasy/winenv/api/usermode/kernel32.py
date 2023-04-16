@@ -199,6 +199,62 @@ class Kernel32(api.ApiHandler):
 
         return None
 
+    @apihook('AddVectoredContinueHandler', argc=2)
+    def AddVectoredContinueHandler(self, emu, argv, ctx={}):
+        """
+        PVOID AddVectoredContinueHandler(
+          ULONG                       First,
+          PVECTORED_EXCEPTION_HANDLER Handler
+        );
+        """
+        return 0
+
+    @apihook('GetProcessAffinityMask', argc=3)
+    def GetProcessAffinityMask(self, emu, argv, ctx={}):
+        """
+        BOOL GetProcessAffinityMask(
+          [in]  HANDLE     hProcess,
+          [out] PDWORD_PTR lpProcessAffinityMask,
+          [out] PDWORD_PTR lpSystemAffinityMask
+        );
+        """
+        value = 0
+        self.mem_write(argv[1], value.to_bytes(self.get_ptr_size(), 'little'))
+        self.mem_write(argv[2], value.to_bytes(self.get_ptr_size(), 'little'))
+        return 0
+
+    @apihook('SetProcessPriorityBoost', argc=2)
+    def SetProcessPriorityBoost(self, emu, argv, ctx={}):
+        """
+        BOOL SetProcessPriorityBoost(
+          [in] HANDLE hProcess,
+          [in] BOOL   bDisablePriorityBoost
+        );
+        """
+        return 1
+
+    @apihook('SetConsoleCtrlHandler', argc=2)
+    def SetConsoleCtrlHandler(self, emu, argv, ctx={}):
+        """
+        BOOL WINAPI SetConsoleCtrlHandler(
+          _In_opt_ PHANDLER_ROUTINE HandlerRoutine,
+          _In_     BOOL             Add
+        );
+        """
+        return 1
+
+    @apihook('CreateWaitableTimerExW', argc=4)
+    def CreateWaitableTimerExW(self, emu, argv, ctx={}):
+        """
+        HANDLE CreateWaitableTimerExW(
+          [in, optional] LPSECURITY_ATTRIBUTES lpTimerAttributes,
+          [in, optional] LPCWSTR               lpTimerName,
+          [in]           DWORD                 dwFlags,
+          [in]           DWORD                 dwDesiredAccess
+        );
+        """
+        return 0
+
     @apihook('GetThreadLocale', argc=0)
     def GetThreadLocale(self, emu, argv, ctx={}):
         '''

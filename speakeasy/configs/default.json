@@ -389,6 +389,11 @@
                     "path": "C:\\Windows\\system32\\kernel32.dll"
                 },
                 {
+                    "name": "winmm",
+                    "base_addr": "0x79000000",
+                    "path": "C:\\Windows\\system32\\winmm.dll"
+                },
+                {
                     "name": "ws2_32",
                     "base_addr": "0x78C00000",
                     "path": "C:\\Windows\\system32\\ws2_32.dll"

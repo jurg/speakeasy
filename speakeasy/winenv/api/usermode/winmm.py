@@ -22,6 +22,14 @@ class Winmm(api.ApiHandler):
         DWORD timeGetTime(); // return the system time, in milliseconds
         '''
         return int(time.monotonic() * 1000) & 0xffffffff
-        
 
+
+    @apihook('timeBeginPeriod', argc=1)
+    def timeBeginPeriod(self, emu, argv, ctx={}):
+        """
+        MMRESULT timeBeginPeriod(
+          UINT uPeriod
+        );
+        """
+        return 0
         

@@ -31,6 +31,24 @@ class Ntdll(api.ApiHandler):
 
         super(Ntdll, self).__get_hook_attrs__(self)
 
+    @apihook('RtlGetNtVersionNumbers', argc=3)
+    def RtlGetNtVersionNumbers(self, emu, argv, ctx={}):
+        """
+        void WINAPI RtlGetNtVersionNumbers(
+            __out_opt ULONG* pNtMajorVersion,
+            __out_opt ULONG* pNtMinorVersion,
+            __out_opt ULONG* pNtBuildNumber
+        );
+        """
+        majorVersion = 10
+        minorVersion = 0
+        buildVersion = 19044
+
+        self.mem_write(argv[0], majorVersion.to_bytes(self.get_ptr_size(), 'little'))
+        self.mem_write(argv[1], minorVersion.to_bytes(self.get_ptr_size(), 'little'))
+        self.mem_write(argv[2], buildVersion.to_bytes(self.get_ptr_size(), 'little'))
+        return 0
+
     @apihook('RtlGetLastWin32Error', argc=0)
     def RtlGetLastWin32Error(self, emu, argv, ctx={}):
         '''DWORD RtlGetLastWin32Error();'''
